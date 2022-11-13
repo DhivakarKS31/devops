@@ -5,7 +5,7 @@
         subject: "SUCCESS: Successfully deployed in Lower Environment",
         body: """Pipeline success: Please go to ${env.BUILD_URL} if you need more details \n """,
         recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-        to: '2022ht66116@wilp.bits-pilani.ac.in',
+        to: '2022ht66116@wilp.bits-pilani.ac.in,dhivakarkscse@gmail.com',
         from: 'jenkins_pipelines@gmail.com'
         )
 }
