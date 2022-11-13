@@ -1,41 +1,9 @@
- def notifySuccessful(){
-    currentBuild.result = "SUCCESS"
-    echo """The deployment is a SUCCESS"""
-    emailext (
-        subject: "SUCCESS: Successfully deployed in Lower Environment",
-        body: """Pipeline success: Please go to ${env.BUILD_URL} if you need more details \n """,
-        recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-        to: '2022ht66116@wilp.bits-pilani.ac.in,dhivakarkscse@gmail.com',
-        from: 'jenkins_pipelines@gmail.com'
-        )
-}
-
-def notifyFailed() {
-        currentBuild.result = "FAILURE"
-        echo """The deployment is a FAILURE"""
-        emailext (
-            subject: "FAILED: Failed to deploy in Lower Environment",
-            body: "Pipeline error: Please go to ${env.BUILD_URL} and verify the respective build",
-            recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-            to: '2022ht66116@wilp.bits-pilani.ac.in',
-            from: 'jenkins_pipelines@gmail.com'
-        )
-}
 node('slave0') {
     stage('Clone Repo') {
         git branch: 'lower', credentialsId: 'jenkins_agent', url: 'git@github.com:DhivakarKS31/devops.git'
     }
     stage('Deploy') {
-       try 
-       {
        sh  "sudo cp index.html /var/www/html/index.html"
-       notifySuccessful()
-       }
-       catch(e)
-       {
-        echo e.toString()
-        notifyFailed()
-       }
     }
     stage("Clean Workspace"){
             cleanWs cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true, notFailBuild: true
