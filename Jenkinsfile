@@ -1,4 +1,4 @@
-node(slave0) {
+node('slave0') {
     stage('Clone Repo') {
         git branch: 'lower', credentialsId: 'jenkins_agent', url: 'git@github.com:DhivakarKS31/devops.git'
     }
